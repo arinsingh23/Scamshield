@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScamShield</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+    --ink: #16232B;
+    --panel: #1D2E38;
+    --surface: #FFFFFF;
+    --teal: #00796B;
+    --gold: #C4A15A;
+    --red: #D9563F;
+    --navy2: #3D4594;
+    --ink-text: #16232B;
+    --muted: #64757D;
+    --hairline: #E4E8EA;
+
+    --serif: 'Source Serif 4', Georgia, serif;
+    --sans: 'Work Sans', Arial, sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--sans);
+    background:
+        radial-gradient(circle at 50% -10%, #223642 0%, var(--ink) 55%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 18px;
+    color: var(--ink-text);
+}
+
+.device {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* LOGO */
+
+.wordmark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.wordmark svg {
+    width: 26px;
+    height: 26px;
+}
+
+.wordmark .name {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 21px;
+    color: #F4F1EA;
+}
+
+.wordmark .name em {
+    font-style: normal;
+    color: var(--gold);
+}
+
+/* MAIN PANEL */
+
+.panel {
+    background: var(--surface);
+    border-radius: 26px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,.55);
+    transition: .4s;
+}
+
+.panel.alert-mode {
+    background: #2B0E0A;
+}
+
+/* TABS */
+
+.segment {
+    display: flex;
+    padding: 22px 22px 0;
+    gap: 26px;
+}
+
+.seg-btn {
+    background: none;
+    border: none;
+    font-family: var(--sans);
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--muted);
+    padding-bottom: 14px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+}
+
+.seg-btn.active {
+    color: var(--teal);
+    border-bottom-color: var(--teal);
+}
+
+.panel.alert-mode .seg-btn {
+    color: #C98A80;
+}
+
+.panel.alert-mode .seg-btn.active {
+    color: #FF9280;
+    border-bottom-color: #FF9280;
+}
+
+.tab-content {
+    display: none;
+    padding: 28px 26px 30px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* RADAR */
+
+.radar-wrap {
+    position: relative;
+    width: 168px;
+    height: 168px;
+    margin: 6px auto 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.radar-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1.5px solid rgba(0,121,107,.35);
+    inset: 0;
+}
+
+.radar-ring.r2 {
+    inset: 18px;
+    border-color: rgba(0,121,107,.5);
+}
+
+.radar-ring.r3 {
+    inset: 36px;
+    border-color: rgba(0,121,107,.7);
+}
+
+.radar-wrap.listening .radar-ring {
+    animation: pulse-ring 2.2s ease-out infinite;
+}
+
+.radar-wrap.listening .r2 {
+    animation-delay: .5s;
+}
+
+.radar-wrap.listening .r3 {
+    animation-delay: 1s;
+}
+
+@keyframes pulse-ring {
+
+    0% {
+        transform: scale(.75);
+        opacity: 0;
+    }
+
+    40% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.35);
+        opacity: 0;
+    }
+}
+
+/* START BUTTON */
+
+#startBtn {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(160deg, var(--teal), #045148);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 24px -8px rgba(0,121,107,.55);
+    transition: .15s;
+}
+
+#startBtn:active {
+    transform: scale(.96);
+}
+
+#startBtn svg {
+    width: 34px;
+    height: 34px;
+}
+
+#startBtn.listening {
+    background: linear-gradient(160deg, var(--red), #8c2f1e);
+    box-shadow: 0 12px 24px -8px rgba(217,86,63,.55);
+}
+
+.radar-wrap.danger .radar-ring {
+    border-color: rgba(217,86,63,.55);
+    animation: pulse-ring 1.1s ease-out infinite;
+}
+
+/* STATUS */
+
+.status-line {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 22px;
+}
+
+.status-line .dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--hairline);
+    margin-right: 6px;
+}
+
+.status-line.live .dot {
+    background: var(--teal);
+    box-shadow: 0 0 0 3px rgba(0,121,107,.18);
+}
+
+.status-line.danger .dot {
+    background: var(--red);
+    box-shadow: 0 0 0 3px rgba(217,86,63,.2);
+}
+
+/* WARNING */
+
+#warningBox {
+    display: none;
+    margin-top: 18px;
+    padding: 16px 18px;
+    background: #FBE2DC;
+    border: 1px solid #F0AFA0;
+    border-radius: 14px;
+    color: #8C2F1E;
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+/* TRANSCRIPT */
+
+.readout {
+    background: #F7F8F6;
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
+    padding: 16px 18px;
+}
+
+.rk-label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--muted);
+    letter-spacing: .06em;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.readout p {
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.6;
+    color: #33454E;
+}
+
+/* SMS */
+
+.sms-label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+#smsInput {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
+    font-family: var(--sans);
+    font-size: 14px;
+    min-height: 110px;
+    resize: vertical;
+}
+
+#smsInput:focus {
+    outline: none;
+    border-color: var(--teal);
+}
+
+#checkSmsBtn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 14px;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    background: var(--navy2);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+}
+
+#checkSmsBtn:hover {
+    opacity: .88;
+}
+
+/* RESULT */
+
+.stamp {
+    margin-top: 20px;
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 2px solid;
+}
+
+.stamp.show {
+    display: flex;
+}
+
+.stamp .mark {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 2px solid currentColor;
+}
+
+#smsSafeBox {
+    color: #1E7B34;
+    border-color: #BFE4C9;
+    background: #EFFAF2;
+}
+
+#smsWarningBox {
+    color: #8C2F1E;
+    border-color: #F0AFA0;
+    background: #FBE2DC;
+}
+
+.stamp .msg {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+    margin-top: 22px;
+    font-size: 11.5px;
+    color: #5C6E77;
+}
+
+/* MOBILE */
+
+@media(max-width:480px) {
+
+    body {
+        padding: 20px 12px;
+    }
+
+    .panel {
+        border-radius: 22px;
+    }
+
+    .tab-content {
+        padding: 24px 20px 26px;
+    }
+
+}
+
+/* PAGE NAVIGATION */
+.page-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 22px 0;
+}
+.page-nav button {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 5px 0;
+}
+.page-nav button:hover { color: var(--teal); }
+
+</style>
+</head>
+
+<body>
+
+<div class="device">
+
+    <!-- WORDMARK -->
+
+    <div class="wordmark">
+
+        <svg viewBox="0 0 24 24" fill="none">
+            <path
+                d="M12 2L4 5V11C4 16 7.5 20.5 12 22C16.5 20.5 20 16 20 11V5L12 2Z"
+                stroke="#C4A15A"
+                stroke-width="1.6"
+                stroke-linejoin="round"
+            />
+
+            <path
+                d="M9 12L11 14L15.5 9.5"
+                stroke="#C4A15A"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            />
+        </svg>
+
+        <span class="name">
+            Scam<em>Shield</em>
+        </span>
+
+    </div>
+
+
+    <!-- MAIN PANEL -->
+
+    <div class="panel" id="mainPanel">
+
+
+        <div class="page-nav">
+            <button onclick="location.href='index.html'">← Home</button>
+            <button onclick="location.href='dashboard.html'">Dashboard →</button>
+        </div>
+
+        <!-- TABS -->
+
+        <div class="segment">
+
+            <button
+                class="seg-btn active"
+                onclick="switchTab('call')">
+                Call
+            </button>
+
+            <button
+                class="seg-btn"
+                onclick="switchTab('sms')">
+                SMS
+            </button>
+
+        </div>
+
+
+        <!-- CALL TAB -->
+
+        <div
+            id="call-tab"
+            class="tab-content active">
+
+            <div
+                class="radar-wrap"
+                id="radarWrap">
+
+                <div class="radar-ring r1"></div>
+                <div class="radar-ring r2"></div>
+                <div class="radar-ring r3"></div>
+
+                <button
+                    id="startBtn"
+                    aria-label="Start listening">
+
+                    <svg viewBox="0 0 24 24" fill="none">
+
+                        <path
+                            d="M12 15C13.66 15 15 13.66 15 12V6C15 4.34 13.66 3 12 3C10.34 3 9 4.34 9 6V12C9 13.66 10.34 15 12 15Z"
+                            fill="white"
+                        />
+
+                        <path
+                            d="M17 12C17 14.76 14.76 17 12 17C9.24 17 7 14.76 7 12H5C5 15.53 7.61 18.43 11 18.92V21H13V18.92C16.39 18.43 19 15.53 19 12H17Z"
+                            fill="white"
+                        />
+
+                    </svg>
+
+                </button>
+
+            </div>
+
+
+            <p
+                class="status-line"
+                id="statusLine">
+
+                <span class="dot"></span>
+                Tap to start protection
+
+            </p>
+
+
+            <div id="warningBox">
+
+                ⚠ This call shows scam indicators —
+                do not share an OTP or make any payment.
+
+            </div>
+
+
+            <div class="readout">
+
+                <span class="rk-label">
+                    LIVE TRANSCRIPT
+                </span>
+
+                <p id="transcriptText">
+                    Waiting for audio…
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- SMS TAB -->
+
+        <div
+            id="sms-tab"
+            class="tab-content">
+
+            <p class="sms-label">
+                Paste a message to check it
+            </p>
+
+            <textarea
+                id="smsInput"
+                placeholder="e.g. Your KYC has expired, update immediately at…">
+            </textarea>
+
+            <button id="checkSmsBtn">
+                Check this message
+            </button>
+
+
+            <div
+                id="smsWarningBox"
+                class="stamp">
+
+                <span class="mark">
+                    FLAGGED
+                </span>
+
+                <span class="msg">
+                    Scam indicators found —
+                    do not click any link.
+                </span>
+
+            </div>
+
+
+            <div
+                id="smsSafeBox"
+                class="stamp">
+
+                <span class="mark">
+                    CLEAR
+                </span>
+
+                <span class="msg">
+                    No scam pattern detected.
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <footer>
+        Team Scam Shield · Mini Project 2026–27
+    </footer>
+
+</div>
+
+
+<script>
+
+/* =========================
+   TAB SWITCHING
+========================= */
+
+function switchTab(tab) {
+
+    document
+        .querySelectorAll(".seg-btn")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+    document
+        .querySelectorAll(".tab-content")
+        .forEach(content =>
+            content.classList.remove("active")
+        );
+
+
+    if (tab === "call") {
+
+        document
+            .querySelectorAll(".seg-btn")[0]
+            .classList.add("active");
+
+        document
+            .getElementById("call-tab")
+            .classList.add("active");
+
+    } else {
+
+        document
+            .querySelectorAll(".seg-btn")[1]
+            .classList.add("active");
+
+        document
+            .getElementById("sms-tab")
+            .classList.add("active");
+
+    }
+
+}
+
+
+/* =========================
+   LISTENING STATE
+========================= */
+
+function setListeningState(isListening) {
+
+    const button =
+        document.getElementById("startBtn");
+
+    const radar =
+        document.getElementById("radarWrap");
+
+    const status =
+        document.getElementById("statusLine");
+
+
+    button.classList.toggle(
+        "listening",
+        isListening
+    );
+
+    radar.classList.toggle(
+        "listening",
+        isListening
+    );
+
+
+    status.classList.toggle(
+        "live",
+        isListening
+    );
+
+
+    if (isListening) {
+
+        status.innerHTML =
+            '<span class="dot"></span>' +
+            'Listening for scam patterns…';
+
+        document.getElementById(
+            "transcriptText"
+        ).textContent =
+            "Listening for audio…";
+
+    } else {
+
+        status.innerHTML =
+            '<span class="dot"></span>' +
+            'Tap to start protection';
+
+        document.getElementById(
+            "transcriptText"
+        ).textContent =
+            "Waiting for audio…";
+
+    }
+
+}
+
+
+/* =========================
+   ALERT STATE
+========================= */
+
+function playScamBeep() {
+
+    const audioContext =
+        new (window.AudioContext || window.webkitAudioContext)();
+
+    const beepDuration = 0.18;
+    const pauseDuration = 0.12;
+    const startTime = audioContext.currentTime;
+
+    for (let beepNumber = 0; beepNumber < 8; beepNumber++) {
+
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        const beepStart =
+            startTime + beepNumber * (beepDuration + pauseDuration);
+        const beepEnd = beepStart + beepDuration;
+
+        oscillator.type = "square";
+        oscillator.frequency.value = 880;
+        gain.gain.setValueAtTime(0.18, beepStart);
+        gain.gain.exponentialRampToValueAtTime(0.001, beepEnd);
+
+        oscillator.connect(gain);
+        gain.connect(audioContext.destination);
+        oscillator.start(beepStart);
+        oscillator.stop(beepEnd);
+    }
+
+}
+
+function setAlertState(isAlert) {
+
+    const panel =
+        document.getElementById("mainPanel");
+
+    const radar =
+        document.getElementById("radarWrap");
+
+    const warning =
+        document.getElementById("warningBox");
+
+    const status =
+        document.getElementById("statusLine");
+
+
+    panel.classList.toggle(
+        "alert-mode",
+        isAlert
+    );
+
+    radar.classList.toggle(
+        "danger",
+        isAlert
+    );
+
+    warning.style.display =
+        isAlert ? "block" : "none";
+
+
+    if (isAlert) {
+
+        playScamBeep();
+
+        status.innerHTML =
+            '<span class="dot"></span>' +
+            'Scam pattern detected';
+
+        status.classList.add("danger");
+
+    } else {
+
+        status.classList.remove("danger");
+
+    }
+
+}
+
+
+/* =========================
+   CALL DETECTION
+========================= */
+
+const scamKeywords = [
+
+    "otp",
+    "urgent",
+    "kyc expired",
+    "verify account",
+    "click here",
+    "payment",
+    "prize",
+    "winner",
+    "lottery",
+    "bank account",
+    "suspended",
+    "password",
+    "upi",
+    "refund",
+    "claim now"
+
+];
+
+const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+const speechRecognition = SpeechRecognition
+    ? new SpeechRecognition()
+    : null;
+
+if (speechRecognition) {
+
+    speechRecognition.continuous = true;
+    speechRecognition.interimResults = true;
+    speechRecognition.lang = "en-US";
+
+    speechRecognition.onresult = event => {
+
+        const transcript = Array.from(event.results)
+            .slice(event.resultIndex)
+            .map(result => result[0].transcript)
+            .join(" ")
+            .toLowerCase()
+            .trim();
+
+        document.getElementById(
+            "transcriptText"
+        ).textContent = transcript || "Listening for audio…";
+
+        const detected = scamKeywords.some(keyword =>
+            transcript.includes(keyword)
+        );
+
+        if (
+            detected &&
+            !document.getElementById("mainPanel").classList.contains("alert-mode")
+        ) {
+            setAlertState(true);
+        }
+
+    };
+
+    speechRecognition.onerror = event => {
+
+        if (event.error !== "no-speech") {
+            document.getElementById(
+                "transcriptText"
+            ).textContent = "Microphone error: " + event.error;
+        }
+
+    };
+
+    speechRecognition.onend = () => {
+
+        if (document.getElementById("startBtn").classList.contains("listening")) {
+            speechRecognition.start();
+        }
+
+    };
+
+}
+
+document
+    .getElementById("startBtn")
+    .addEventListener("click", function () {
+
+        const isListening =
+            !this.classList.contains("listening");
+
+        setListeningState(isListening);
+
+        if (isListening) {
+
+            if (speechRecognition) {
+                speechRecognition.start();
+            } else {
+                document.getElementById(
+                    "transcriptText"
+                ).textContent =
+                    "Speech recognition is not supported in this browser.";
+            }
+
+        } else {
+
+            if (speechRecognition) {
+                speechRecognition.stop();
+            }
+
+            setAlertState(false);
+
+        }
+
+});
+
+
+/* =========================
+   SMS SCAM DETECTION
+========================= */
+
+document
+    .getElementById("checkSmsBtn")
+    .addEventListener("click", function () {
+
+        const text =
+            document
+            .getElementById("smsInput")
+            .value
+            .toLowerCase()
+            .trim();
+
+
+        const warning =
+            document.getElementById(
+                "smsWarningBox"
+            );
+
+        const safe =
+            document.getElementById(
+                "smsSafeBox"
+            );
+
+
+        if (!text) {
+
+            alert(
+                "Please paste a message first."
+            );
+
+            return;
+
+        }
+
+
+        /*
+          Demo keyword detection.
+        */
+
+        const detected =
+            scamKeywords.some(keyword =>
+                text.includes(keyword)
+            );
+
+
+        if (detected) {
+
+            playScamBeep();
+
+            warning.classList.add("show");
+
+            safe.classList.remove("show");
+
+        } else {
+
+            safe.classList.add("show");
+
+            warning.classList.remove("show");
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

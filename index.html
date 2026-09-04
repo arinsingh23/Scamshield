@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScamShield</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+    --ink: #16232B;
+    --panel: #1D2E38;
+    --surface: #FFFFFF;
+    --teal: #00796B;
+    --gold: #C4A15A;
+    --red: #D9563F;
+    --navy2: #3D4594;
+    --ink-text: #16232B;
+    --muted: #64757D;
+    --hairline: #E4E8EA;
+
+    --serif: 'Source Serif 4', Georgia, serif;
+    --sans: 'Work Sans', Arial, sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--sans);
+    background:
+        radial-gradient(circle at 50% -10%, #223642 0%, var(--ink) 55%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 18px;
+    color: var(--ink-text);
+}
+
+.device {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* LOGO */
+
+.wordmark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.wordmark svg {
+    width: 26px;
+    height: 26px;
+}
+
+.wordmark .name {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 21px;
+    color: #F4F1EA;
+}
+
+.wordmark .name em {
+    font-style: normal;
+    color: var(--gold);
+}
+
+/* MAIN PANEL */
+
+.panel {
+    background: var(--surface);
+    border-radius: 26px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,.55);
+    transition: .4s;
+}
+
+/* WELCOME */
+
+.welcome {
+    padding: 34px 26px 30px;
+    text-align: center;
+}
+
+.welcome-icon {
+    width: 76px;
+    height: 76px;
+    margin: 2px auto 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #EEF7F5;
+}
+
+.welcome-icon svg {
+    width: 42px;
+    height: 42px;
+}
+
+.eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 8px;
+}
+
+.welcome h1 {
+    font-family: var(--serif);
+    font-size: 31px;
+    line-height: 1.1;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 12px;
+}
+
+.welcome p {
+    color: var(--muted);
+    font-size: 13.5px;
+    line-height: 1.6;
+    margin: 0 auto 24px;
+    max-width: 310px;
+}
+
+#startBtn {
+    width: 100%;
+    padding: 15px;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    background: linear-gradient(160deg, var(--teal), #045148);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 12px 24px -8px rgba(0,121,107,.55);
+    transition: .15s;
+}
+
+#startBtn:active {
+    transform: scale(.98);
+}
+
+#dashboardBtn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    background: #F7F8F6;
+    color: var(--ink);
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: .15s;
+}
+
+#dashboardBtn:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+}
+
+#dashboardBtn:active {
+    transform: scale(.98);
+}
+
+/* FEATURES */
+
+.features {
+    margin-top: 26px;
+    text-align: left;
+}
+
+.features-label {
+    font-size: 10.5px;
+    font-family: var(--mono);
+    color: var(--muted);
+    letter-spacing: .06em;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-top: 1px solid var(--hairline);
+}
+
+.feature-icon {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    border-radius: 10px;
+    background: #F7F8F6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feature-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+.feature h2 {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.feature p {
+    color: var(--muted);
+    font-size: 11.5px;
+    line-height: 1.45;
+}
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+    margin-top: 22px;
+    font-size: 11.5px;
+    color: #5C6E77;
+}
+
+/* MOBILE */
+
+@media(max-width:480px) {
+    body {
+        padding: 20px 12px;
+    }
+
+    .panel {
+        border-radius: 22px;
+    }
+
+    .welcome {
+        padding: 30px 20px 26px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="device">
+
+    <!-- WORDMARK -->
+
+    <div class="wordmark">
+
+        <svg viewBox="0 0 24 24" fill="none">
+            <path
+                d="M12 2L4 5V11C4 16 7.5 20.5 12 22C16.5 20.5 20 16 20 11V5L12 2Z"
+                stroke="#C4A15A"
+                stroke-width="1.6"
+                stroke-linejoin="round"
+            />
+
+            <path
+                d="M9 12L11 14L15.5 9.5"
+                stroke="#C4A15A"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            />
+        </svg>
+
+        <span class="name">
+            Scam<em>Shield</em>
+        </span>
+
+    </div>
+
+
+    <!-- MAIN PANEL -->
+
+    <div class="panel">
+
+        <div class="welcome">
+
+            <div class="welcome-icon">
+
+                <svg viewBox="0 0 48 48" fill="none">
+                    <path
+                        d="M24 5L9 10.5V21C9 30.4 15.6 39 24 42C32.4 39 39 30.4 39 21V10.5L24 5Z"
+                        stroke="#00796B"
+                        stroke-width="2.2"
+                        stroke-linejoin="round"
+                    />
+
+                    <path
+                        d="M17.5 24L21.5 28L30.5 18.5"
+                        stroke="#00796B"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+
+            </div>
+
+            <div class="eyebrow">
+                DIGITAL SAFETY
+            </div>
+
+            <h1>
+                Stay ahead<br>
+                of scams.
+            </h1>
+
+            <p>
+                ScamShield helps you identify suspicious calls and messages
+                before they turn into costly mistakes.
+            </p>
+
+            <button id="startBtn" onclick="startProtection()">
+                Start Protection →
+            </button>
+
+            <button id="dashboardBtn" onclick="openDashboard()">
+                View Security Dashboard
+            </button>
+
+
+            <div class="features">
+
+                <span class="features-label">
+                    WHAT SCAMSHIELD PROTECTS
+                </span>
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M7 4H17C18.1 4 19 4.9 19 6V18C19 19.1 18.1 20 17 20H7C5.9 20 5 19.1 5 18V6C5 4.9 5.9 4 7 4Z"
+                                stroke="#00796B"
+                                stroke-width="1.7"
+                            />
+                            <path
+                                d="M8 8H16M8 12H14M8 16H12"
+                                stroke="#00796B"
+                                stroke-width="1.7"
+                                stroke-linecap="round"
+                            />
+                        </svg>
+
+                    </div>
+
+                    <div>
+                        <h2>Suspicious Messages</h2>
+                        <p>
+                            Check SMS and other text messages for common scam patterns.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M7 4C5.9 4 5 4.9 5 6V18C5 19.1 5.9 20 7 20H17C18.1 20 19 19.1 19 18V6C19 4.9 18.1 4 17 4H7Z"
+                                stroke="#00796B"
+                                stroke-width="1.7"
+                            />
+                            <path
+                                d="M9 8C9 10.8 10.8 12 12 12C13.2 12 15 10.8 15 8"
+                                stroke="#00796B"
+                                stroke-width="1.7"
+                                stroke-linecap="round"
+                            />
+                            <path
+                                d="M9 16H15"
+                                stroke="#00796B"
+                                stroke-width="1.7"
+                                stroke-linecap="round"
+                            />
+                        </svg>
+
+                    </div>
+
+                    <div>
+                        <h2>Scam Calls</h2>
+                        <p>
+                            Listen for suspicious language and warning signs during calls.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M12 3L19 6V11C19 15.5 16.1 19.1 12 21C7.9 19.1 5 15.5 5 11V6L12 3Z"
+                                stroke="#00796B"
+                                stroke-width="1.7"
+                                stroke-linejoin="round"
+                            />
+                            <path
+                                d="M9 12L11.2 14.2L15.5 9.8"
+                                stroke="#00796B"
+                                stroke-width="1.7"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+
+                    </div>
+
+                    <div>
+                        <h2>Safer Decisions</h2>
+                        <p>
+                            Get clear warnings before sharing sensitive information or paying.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <footer>
+        Team Scam Shield · Mini Project 2026–27
+    </footer>
+
+</div>
+
+
+<script>
+
+function startProtection() {
+    window.location.href = "protect.html";
+}
+
+function openDashboard() {
+    window.location.href = "dashboard.html";
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScamShield — Dashboard</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap');
+:root{--ink:#16232B;--teal:#00796B;--gold:#C4A15A;--surface:#fff;--muted:#64757D;--hairline:#E4E8EA;--red:#D9563F;--green:#2E7D42;--serif:'Source Serif 4',Georgia,serif;--sans:'Work Sans',Arial,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:radial-gradient(circle at 50% -10%,#223642 0%,var(--ink) 58%);min-height:100vh;color:var(--ink);padding:28px 18px}
+.device{width:100%;max-width:400px;margin:auto}
+.wordmark{display:flex;align-items:center;justify-content:center;gap:10px;margin:8px 0 22px}
+.wordmark svg{width:28px;height:28px}.name{font-family:var(--serif);font-weight:600;font-size:22px;color:#F4F1EA}.name em{font-style:normal;color:var(--gold)}
+.panel{background:var(--surface);border-radius:26px;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.55);padding:25px 22px 26px}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:23px}
+h1{font-family:var(--serif);font-size:29px;line-height:1.1}.sub{font-size:12px;color:var(--muted);margin-top:5px}
+.home{border:1px solid var(--hairline);background:#F7F8F6;border-radius:11px;padding:9px 11px;cursor:pointer;font-weight:600;color:var(--ink)}
+.score{background:#EEF7F5;border:1px solid #D4EAE6;border-radius:17px;padding:18px;margin-bottom:15px;display:flex;align-items:center;gap:17px}
+.circle{width:74px;height:74px;border-radius:50%;border:7px solid var(--teal);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;flex:0 0 74px}
+.score h2{font-size:15px;margin-bottom:4px}.score p{font-size:12px;line-height:1.45;color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+.stat{border:1px solid var(--hairline);border-radius:14px;padding:15px}.stat .num{font-family:var(--serif);font-size:26px;font-weight:700}.stat .label{font-size:11px;color:var(--muted);margin-top:3px}
+.section{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:5px 0 11px}
+.event{display:flex;align-items:center;gap:11px;padding:13px 0;border-top:1px solid var(--hairline)}
+.event-icon{width:35px;height:35px;border-radius:10px;background:#FBE2DC;color:var(--red);display:flex;align-items:center;justify-content:center;font-size:16px;flex:0 0 35px}
+.event.safe .event-icon{background:#EFFAF2;color:var(--green)}
+.event strong{font-size:12.5px}.event small{display:block;font-size:10.5px;color:var(--muted);margin-top:3px}
+.badge{margin-left:auto;font-size:9.5px;font-weight:700;padding:5px 7px;border-radius:7px;background:#FBE2DC;color:var(--red)}
+.badge.safe{background:#EFFAF2;color:var(--green)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:18px}
+.action{padding:13px 9px;border:1px solid var(--hairline);border-radius:12px;background:white;cursor:pointer;font-family:var(--sans);font-weight:600;font-size:12px}
+.action.primary{background:var(--teal);color:white;border-color:var(--teal)}
+footer{text-align:center;margin-top:18px;color:#87959B;font-size:11px}
+</style>
+</head>
+<body>
+<div class="device">
+  <div class="wordmark">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L4 5V11C4 16 7.5 20.5 12 22C16.5 20.5 20 16 20 11V5L12 2Z" stroke="#C4A15A" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12L11 14L15.5 9.5" stroke="#C4A15A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="name">Scam<em>Shield</em></span>
+  </div>
+
+  <main class="panel">
+    <div class="top">
+      <div><h1>Security Dashboard</h1><p class="sub">Your recent protection activity</p></div>
+      <button class="home" onclick="location.href='index.html'">Home</button>
+    </div>
+
+    <div class="score">
+      <div class="circle">94</div>
+      <div><h2>Protection score</h2><p>Your ScamShield protection is active and ready to check suspicious activity.</p></div>
+    </div>
+
+    <div class="grid">
+      <div class="stat"><div class="num">24</div><div class="label">Messages checked</div></div>
+      <div class="stat"><div class="num">7</div><div class="label">Threats detected</div></div>
+      <div class="stat"><div class="num">12</div><div class="label">Calls analyzed</div></div>
+      <div class="stat"><div class="num">5</div><div class="label">Threats blocked</div></div>
+    </div>
+
+    <div class="section">Recent activity</div>
+
+    <div class="event">
+      <div class="event-icon">⚠</div>
+      <div><strong>Suspicious SMS detected</strong><small>Today · KYC / payment pattern</small></div>
+      <span class="badge">HIGH RISK</span>
+    </div>
+
+    <div class="event safe">
+      <div class="event-icon">✓</div>
+      <div><strong>Message cleared</strong><small>Today · No scam pattern detected</small></div>
+      <span class="badge safe">CLEAR</span>
+    </div>
+
+    <div class="event">
+      <div class="event-icon">⚠</div>
+      <div><strong>Call warning triggered</strong><small>Yesterday · OTP request detected</small></div>
+      <span class="badge">ALERT</span>
+    </div>
+
+    <div class="actions">
+      <button class="action primary" onclick="location.href='protect.html'">Start Protection</button>
+      <button class="action" onclick="location.href='protect.html'">Check a Message</button>
+    </div>
+  </main>
+
+  <footer>Team Scam Shield · Mini Project 2026–27</footer>
+</div>
+</body>
+</html>
