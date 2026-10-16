@@ -869,7 +869,7 @@ if (speechRecognition) {
         ).textContent = transcript || "Listening for audio…";
 
         if (transcript) {
-    fetch("/api/analyze", {
+    fetch("https://scamshield-2i20.onrender.com/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: transcript })
